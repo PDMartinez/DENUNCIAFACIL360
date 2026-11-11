@@ -1,0 +1,47 @@
+/* Módulo de consulta y seguimiento */
+.tracking-page{min-height:70vh;background:#fff8fd}
+.tracking-intro{max-width:720px;margin:0 auto 28px}
+.tracking-intro h1{margin:9px 0;color:#3c174e;font:800 clamp(29px,4vw,39px) Manrope,sans-serif}
+.tracking-intro p{color:#716977;line-height:1.7}
+.tracking-card{max-width:720px;margin:0 auto;padding:32px;border:1px solid #f0e2ed;border-radius:18px;background:#fff;box-shadow:0 12px 35px #5b185c10}
+.tracking-icon{width:58px;height:58px;display:grid;place-items:center;margin:0 auto 15px;border-radius:17px;color:#bd168c;background:#f8e5f2;font-size:27px}
+.tracking-card>h2{text-align:center;color:#3c174e;font:800 22px Manrope}
+.card-description{text-align:center;color:#716977;font-size:13px;margin-bottom:25px}
+.tracking-card .form-label{font-size:13px;font-weight:700;color:#403648}
+.input-icon{position:relative}
+.input-icon>i{position:absolute;left:14px;top:50%;transform:translateY(-50%);z-index:2;color:#bd168c}
+.input-icon .form-control{height:48px;padding-left:42px;border-color:#e8dce7;border-radius:9px;font-size:14px}
+.input-icon .form-control:focus{border-color:#ce65b1;box-shadow:0 0 0 .2rem #bd168c18}
+.tracking-help{display:flex;gap:10px;margin-top:20px;padding:13px 15px;border-radius:10px;background:#f8eaf4;color:#66556a;font-size:12px;line-height:1.6}
+.tracking-help i{color:#bd168c;font-size:17px;flex:0 0 auto}
+.result-heading{text-align:center;margin-bottom:24px}
+.result-check{width:58px;height:58px;display:grid;place-items:center;margin:0 auto 14px;border-radius:50%;color:#fff;background:linear-gradient(145deg,#d43aa8,#79238f);font-size:30px}
+.result-heading h2{margin:7px 0;color:#3c174e;font:800 23px Manrope}
+.result-heading p{color:#716977;font-size:13px}
+.case-summary{display:grid;grid-template-columns:1fr 1fr;gap:17px;padding:20px;border:1px solid #ead9e8;border-radius:12px;background:#fffaff}
+.case-summary small{display:block;margin-bottom:6px;color:#807486;font-size:11px}
+.case-summary strong{display:block;color:#3c174e;font-size:14px;overflow-wrap:anywhere}
+.current-status{grid-column:1/-1;padding-top:14px;border-top:1px solid #eadfe9}
+.status-pill{display:inline-flex;padding:7px 12px;border-radius:30px;font-size:12px;font-weight:800}
+.status-received{background:#e8f2ff;color:#245b91}.status-pending{background:#fff2d9;color:#8c5a09}.status-review{background:#f2e8ff;color:#70409b}.status-analysis{background:#e4f5f1;color:#18735f}.status-info{background:#fff0e4;color:#a05218}.status-closed{background:#e8f5e9;color:#2e7136}.status-default{background:#eee;color:#555}
+.history-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 18px}
+.history-heading h3{margin:0;color:#3c174e;font:800 16px Manrope}
+.history-heading h3 i{color:#bd168c;margin-right:5px}
+.history-heading>span{color:#887d89;font-size:11px}
+.timeline{position:relative;padding-left:8px}
+.timeline:before{content:"";position:absolute;left:19px;top:16px;bottom:25px;width:2px;background:#ead6e6}
+.timeline-item{position:relative;display:flex;gap:15px;padding-bottom:22px}
+.timeline-marker{position:relative;z-index:1;width:25px;height:25px;flex:0 0 25px;display:grid;place-items:center;border:2px solid #fff;border-radius:50%;color:#fff;background:#bd168c;box-shadow:0 0 0 2px #eac5df;font-size:12px}
+.timeline-content{flex:1;padding:14px 16px;border:1px solid #eee3ed;border-radius:10px;background:#fff}
+.timeline-meta{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.timeline-meta strong{color:#4b2458;font-size:13px}
+.timeline-meta time{color:#8b808c;font-size:11px}
+.timeline-content p{margin:9px 0 0;color:#716977;font-size:13px;line-height:1.65;white-space:normal}
+.empty-history{padding:25px;text-align:center;border:1px dashed #e6c6df;border-radius:11px;color:#716977}
+.empty-history i{color:#bd168c;font-size:28px}
+.empty-history p{margin:8px 0 0;font-size:13px}
+.result-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:22px}
+.tracking-bottom-note{max-width:720px;margin:17px auto 0;color:#887d89;font-size:11px;line-height:1.6;text-align:center}
+.tracking-bottom-note i{color:#bd168c}
+.alert{font-size:13px}
+@media(max-width:575px){.tracking-card{padding:23px 16px}.case-summary{grid-template-columns:1fr}.current-status{grid-column:auto}.timeline-meta{align-items:flex-start;flex-direction:column}.result-actions .btn{width:100%}}
