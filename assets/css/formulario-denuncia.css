@@ -1,0 +1,61 @@
+/* Estilos del formulario y confirmación */
+.form-page{background:#fff8fd;min-height:70vh}
+.form-intro{max-width:780px;margin:0 auto 28px}
+.form-intro h1,.success-panel h1{margin:9px 0;color:#3c174e;font:800 clamp(29px,4vw,39px) Manrope,sans-serif}
+.form-intro>p,.success-panel>p{color:#716977;line-height:1.7}
+.privacy-note,.optional-banner,.credential-warning{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:11px;text-align:left;background:#f8e8f4;color:#604b63;font-size:13px;line-height:1.6}
+.privacy-note>i,.optional-banner>i,.credential-warning>i{color:#bd168c;font-size:20px;flex:0 0 auto}
+.form-panel{max-width:920px;margin:auto;padding:28px 32px;border:1px solid #f0e2ed;border-radius:18px;background:#fff;box-shadow:0 12px 35px #5b185c10}
+.form-progress{display:flex;align-items:center;justify-content:center;margin:0 auto 32px;max-width:700px}
+.progress-step{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:90px;color:#a69aa8}
+.progress-step span{width:35px;height:35px;display:grid;place-items:center;border:2px solid #e8dce7;border-radius:50%;font-weight:800;background:#fff}
+.progress-step small{font-size:11px;font-weight:700;text-align:center}
+.progress-step.active,.progress-step.done{color:#a80d80}
+.progress-step.active span,.progress-step.done span{border-color:#bd168c;color:#fff;background:#bd168c}
+.progress-line{height:2px;flex:1;max-width:75px;background:#eaddea;margin:0 5px 20px}
+.form-step{display:none;min-height:390px}
+.form-step.active{display:block}
+.step-heading{display:flex;align-items:center;gap:14px;margin-bottom:25px;padding-bottom:18px;border-bottom:1px solid #f0e7ef}
+.step-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:14px;color:#bd168c;background:#f8e5f2;font-size:23px}
+.step-heading h2{margin:0 0 4px;color:#3c174e;font:800 20px Manrope}
+.step-heading p{margin:0;color:#716977;font-size:13px}
+.form-label{color:#403648;font-size:13px;font-weight:700;margin-bottom:7px}
+.form-label span,.form-check-label span{color:#bd168c}
+.form-control,.form-select{min-height:45px;border-color:#e8dce7;border-radius:8px;font-size:14px}
+textarea.form-control{min-height:auto}
+.form-control:focus,.form-select:focus{border-color:#ce65b1;box-shadow:0 0 0 .2rem #bd168c18}
+.form-hint{margin-top:6px;color:#817787;font-size:11px}
+.invalid-feedback{font-size:12px}
+.upload-area{padding:30px 22px;text-align:center;border:2px dashed #e6c6df;border-radius:13px;background:#fffaff}
+.upload-area>i{color:#bd168c;font-size:42px}
+.upload-area h3{margin:10px 0 5px;color:#3c174e;font:800 17px Manrope}
+.upload-area p{color:#716977;font-size:12px}
+.upload-area input{max-width:440px;margin:15px auto 0;text-align:left}
+.file-list{margin-top:12px;color:#514657;font-size:12px;text-align:left}
+.file-list div{padding:6px 10px;border-radius:6px;background:#f8eaf4;margin-top:5px}
+.review-box{padding:20px;border:1px solid #ead9e8;border-radius:12px;background:#fffaff}
+.review-box h3{color:#3c174e;font:800 16px Manrope}
+.review-box h3 i{color:#bd168c}
+.review-box p{color:#716977;font-size:13px;line-height:1.65}
+.form-check-label{font-size:13px}
+.credential-warning{margin-top:18px;background:#fff5e8;color:#685238}
+.credential-warning>i{color:#c17b19}
+.credential-warning p{margin:3px 0 0}
+.review-summary{margin-top:16px;padding:15px;border-radius:10px;background:#f8f5f8;font-size:13px;color:#5d5260}
+.form-actions{display:flex;align-items:center;gap:10px;margin-top:25px;padding-top:20px;border-top:1px solid #f0e7ef}
+.flex-spacer{flex:1}
+.btn-next,.btn-back{padding:11px 19px;border-radius:9px;font-size:13px;font-weight:800}
+.btn-next{color:#fff;background:#b91589}.btn-next:hover{color:#fff;background:#95106f}
+.btn-back{border:1px solid #e5d7e4;color:#66566a;background:#fff}
+.form-footer-note{text-align:center;margin:18px auto 0;color:#887d89;font-size:11px}
+.success-panel{max-width:690px;margin:0 auto;padding:40px;border:1px solid #f0e2ed;border-radius:18px;background:#fff;box-shadow:0 12px 35px #5b185c10}
+.success-icon{width:72px;height:72px;display:grid;place-items:center;margin:0 auto 20px;border-radius:50%;color:#fff;background:linear-gradient(145deg,#d43aa8,#79238f);font-size:38px}
+.credential-card{margin:25px 0;padding:8px 20px;border:1px solid #ead9e8;border-radius:12px;background:#fffaff}
+.credential-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0}
+.credential-row+ .credential-row{border-top:1px solid #eadfe9}
+.credential-row small{display:block;color:#807486;font-size:11px;margin-bottom:5px}
+.credential-row strong{display:block;color:#3c174e;font:800 18px Manrope;letter-spacing:.5px;overflow-wrap:anywhere}
+.copy-btn{width:38px;height:38px;flex:0 0 38px;border:1px solid #e7c8df;border-radius:8px;color:#bd168c;background:#fff}
+.footer-bottom a{color:#e7d7e9}
+@media(max-width:600px){.form-panel{padding:20px 15px}.form-progress{align-items:flex-start}.progress-step{min-width:62px}.progress-step small{font-size:9px}.progress-line{margin-top:16px}.form-step{min-height:0}.step-heading h2{font-size:17px}.success-panel{padding:28px 18px}.credential-row strong{font-size:15px}}
+@media print{.site-header,.footer,.form-page .btn,.copy-btn{display:none!important}.form-page{background:#fff}.success-panel{box-shadow:none;border:0}.credential-warning{border:1px solid #ddd}}
