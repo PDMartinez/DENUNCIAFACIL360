@@ -17,6 +17,8 @@ $conteos = array_fill_keys(array_keys($estados), 0);
 $ultimas = [];
 $puntosMapa = [];
 $categoriasMapa = [];
+$estadisticasMunicipio = [];
+$estadisticasCategoria = [];
 
 try {
     $total = (int)$conexion->query("SELECT COUNT(*) FROM denuncias")->fetchColumn();
@@ -52,6 +54,28 @@ try {
          WHERE d.latitud IS NOT NULL AND d.longitud IS NOT NULL
          ORDER BY c.nombre"
     )->fetchAll(PDO::FETCH_COLUMN);
+
+    // Estadísticas geográficas por municipio: se excluyen valores vacíos.
+    $estadisticasMunicipio = $conexion->query(
+        "SELECT COALESCE(NULLIF(TRIM(municipio), ''), 'Sin municipio') AS municipio,
+                COUNT(*) AS cantidad
+         FROM denuncias
+         WHERE latitud IS NOT NULL AND longitud IS NOT NULL
+         GROUP BY COALESCE(NULLIF(TRIM(municipio), ''), 'Sin municipio')
+         ORDER BY cantidad DESC, municipio ASC
+         LIMIT 10"
+    )->fetchAll(PDO::FETCH_ASSOC);
+
+    // Distribución por categoría de las denuncias geolocalizadas.
+    $estadisticasCategoria = $conexion->query(
+        "SELECT COALESCE(c.nombre, 'Sin categoría') AS categoria,
+                COUNT(*) AS cantidad
+         FROM denuncias d
+         LEFT JOIN categorias c ON c.id = d.categoria_id
+         WHERE d.latitud IS NOT NULL AND d.longitud IS NOT NULL
+         GROUP BY COALESCE(c.nombre, 'Sin categoría')
+         ORDER BY cantidad DESC, categoria ASC"
+    )->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $ex) {
     error_log('Dashboard: ' . $ex->getMessage());
     $errorDashboard = 'No se pudieron cargar todos los indicadores. Verificá la estructura de la base de datos.';
@@ -120,6 +144,59 @@ require __DIR__ . '/header.php';
     <div id="estadoMapaDashboard" class="geo-map-feedback" aria-live="polite"></div>
 </section>
 
+<section class="admin-panel geo-stats-panel mt-4">
+    <div class="panel-heading">
+        <div>
+            <h2><i class="bi bi-bar-chart-line"></i> Estadísticas geográficas</h2>
+            <p>Distribución de las denuncias geolocalizadas por municipio y categoría.</p>
+        </div>
+        <span class="geo-map-total"><i class="bi bi-pin-map"></i> Basado en <?= count($puntosMapa) ?> ubicaciones</span>
+    </div>
+
+    <div class="geo-stats-grid">
+        <article class="geo-chart-card">
+            <div class="geo-chart-title">
+                <h3>Denuncias por municipio</h3>
+                <p>Municipios con mayor cantidad de ubicaciones registradas (hasta 10).</p>
+            </div>
+            <?php if ($estadisticasMunicipio): ?>
+                <div class="geo-chart-wrap"><canvas id="graficoMunicipios" aria-label="Gráfico de denuncias por municipio" role="img"></canvas></div>
+            <?php else: ?>
+                <div class="geo-chart-empty">Todavía no hay denuncias geolocalizadas con datos para mostrar.</div>
+            <?php endif; ?>
+        </article>
+
+        <article class="geo-chart-card">
+            <div class="geo-chart-title">
+                <h3>Denuncias por categoría</h3>
+                <p>Distribución de las categorías entre las denuncias geolocalizadas.</p>
+            </div>
+            <?php if ($estadisticasCategoria): ?>
+                <div class="geo-chart-wrap geo-chart-doughnut"><canvas id="graficoCategorias" aria-label="Gráfico de denuncias por categoría" role="img"></canvas></div>
+            <?php else: ?>
+                <div class="geo-chart-empty">Todavía no hay denuncias geolocalizadas con categorías registradas.</div>
+            <?php endif; ?>
+        </article>
+    </div>
+
+    <div class="geo-stats-table-wrap">
+        <h3>Resumen por municipio</h3>
+        <div class="table-responsive">
+            <table class="table admin-table align-middle">
+                <thead><tr><th>Municipio</th><th class="text-end">Denuncias geolocalizadas</th></tr></thead>
+                <tbody>
+                <?php if (!$estadisticasMunicipio): ?>
+                    <tr><td colspan="2" class="text-center py-3 text-muted">No hay datos disponibles.</td></tr>
+                <?php else: foreach ($estadisticasMunicipio as $fila): ?>
+                    <tr><td><?= h($fila['municipio']) ?></td><td class="text-end"><strong><?= (int)$fila['cantidad'] ?></strong></td></tr>
+                <?php endforeach; endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p class="geo-stats-note"><i class="bi bi-info-circle"></i> Estas estadísticas consideran únicamente denuncias con coordenadas guardadas. El municipio se toma del dato ingresado en el formulario; no se deduce automáticamente a partir del punto del mapa.</p>
+</section>
+
 <section class="admin-panel mt-4">
 <div class="panel-heading"><div><h2>Últimas denuncias</h2><p>Los registros más recientes de la plataforma.</p></div><a href="denuncias.php">Ver todas <i class="bi bi-arrow-right"></i></a></div>
 <div class="table-responsive"><table class="table admin-table align-middle"><thead><tr><th>Código</th><th>Asunto</th><th>Categoría</th><th>Fecha de registro</th><th>Estado</th><th></th></tr></thead><tbody>
@@ -131,6 +208,75 @@ require __DIR__ . '/header.php';
 </tr><?php endforeach; ?>
 </tbody></table></div>
 </section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof Chart === 'undefined') return;
+
+    const municipios = <?= json_encode($estadisticasMunicipio, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
+    const categorias = <?= json_encode($estadisticasCategoria, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
+
+    const pink = '#BD168C';
+    const palette = ['#BD168C', '#7D4AA8', '#E59ACB', '#5A8DEE', '#E7A23B',
+                     '#58A99A', '#D96C8A', '#8D82C4', '#B7A0B8', '#D1B35A'];
+
+    const municipioCanvas = document.getElementById('graficoMunicipios');
+    if (municipioCanvas && municipios.length) {
+        new Chart(municipioCanvas, {
+            type: 'bar',
+            data: {
+                labels: municipios.map(item => item.municipio),
+                datasets: [{
+                    label: 'Denuncias',
+                    data: municipios.map(item => Number(item.cantidad)),
+                    backgroundColor: pink,
+                    borderRadius: 6,
+                    maxBarThickness: 34
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: context => ` ${context.parsed.x} denuncia(s)` } }
+                },
+                scales: {
+                    x: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#F0EAF0' } },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+    }
+
+    const categoriaCanvas = document.getElementById('graficoCategorias');
+    if (categoriaCanvas && categorias.length) {
+        new Chart(categoriaCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: categorias.map(item => item.categoria),
+                datasets: [{
+                    data: categorias.map(item => Number(item.cantidad)),
+                    backgroundColor: palette,
+                    borderColor: '#FFFFFF',
+                    borderWidth: 3,
+                    hoverOffset: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '62%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16, boxWidth: 8 } },
+                    tooltip: { callbacks: { label: context => ` ${context.label}: ${context.parsed} denuncia(s)` } }
+                }
+            }
+        });
+    }
+});
+</script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>

@@ -47,3 +47,20 @@
 .geo-popup strong{color:#64216f;font-size:13px}
 .geo-popup span{display:block}
 @media(max-width:700px){.geo-map-filters{grid-template-columns:1fr}.geo-dashboard-map{height:330px}.geo-dashboard-heading{align-items:flex-start}}
+
+
+/* Estadísticas geográficas del dashboard */
+.geo-stats-panel .panel-heading h2 i{margin-right:7px;color:var(--pink)}
+.geo-stats-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:16px;margin-top:18px}
+.geo-chart-card{min-width:0;padding:17px;border:1px solid #eee3ed;border-radius:12px;background:#fff}
+.geo-chart-title h3,.geo-stats-table-wrap h3{margin:0 0 5px;color:#4e3454;font-size:14px;font-weight:800}
+.geo-chart-title p{margin:0;color:#8c818e;font-size:10px;line-height:1.5}
+.geo-chart-wrap{position:relative;height:310px;margin-top:14px}
+.geo-chart-doughnut{height:310px}
+.geo-chart-empty{display:grid;place-items:center;min-height:220px;padding:20px;color:#918592;text-align:center;font-size:12px}
+.geo-stats-table-wrap{margin-top:20px}
+.geo-stats-table-wrap .admin-table{margin-top:10px}
+.geo-stats-note{display:flex;gap:7px;margin:13px 0 0;color:#8b808d;font-size:10px;line-height:1.5}
+.geo-stats-note i{color:#bd168c}
+@media(max-width:850px){.geo-stats-grid{grid-template-columns:1fr}}
+@media(max-width:575px){.geo-chart-card{padding:12px}.geo-chart-wrap,.geo-chart-doughnut{height:270px}}
