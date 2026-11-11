@@ -20,6 +20,8 @@ $instituciones = $conexion->query("SELECT id, nombre FROM instituciones WHERE es
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <link href="../assets/css/estilos.css" rel="stylesheet">
 <link href="../assets/css/formulario-denuncia.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link href="../assets/css/geolocalizacion.css" rel="stylesheet">
 </head>
 <body>
 <header class="site-header">
@@ -110,6 +112,25 @@ No se pudo registrar la denuncia. Verificá los datos e intentá nuevamente. Si 
 <input class="form-control" type="text" id="lugar_hecho" name="lugar_hecho" maxlength="250" required placeholder="Dirección, oficina, establecimiento u otro lugar">
 <div class="invalid-feedback">Indicá dónde ocurrieron los hechos.</div>
 </div>
+
+<div class="col-12">
+<div class="geo-card">
+  <div class="geo-heading">
+    <span class="geo-icon"><i class="bi bi-geo-alt"></i></span>
+    <div><h3>Geolocalización del lugar</h3><p>Marcá en el mapa dónde ocurrieron los hechos. Esta opción es voluntaria.</p></div>
+  </div>
+  <div class="geo-notice"><i class="bi bi-info-circle"></i> La ubicación corresponde al lugar denunciado, no necesariamente a tu ubicación actual. Podés marcar cualquier punto del mapa.</div>
+  <div class="geo-actions">
+    <button type="button" class="btn btn-geo" id="btnMiUbicacion"><i class="bi bi-crosshair"></i> Usar mi ubicación actual</button>
+    <button type="button" class="btn btn-geo-light" id="btnLimpiarUbicacion"><i class="bi bi-eraser"></i> Quitar ubicación</button>
+  </div>
+  <div id="mapaDenuncia" class="geo-map" role="application" aria-label="Mapa para seleccionar el lugar de los hechos"></div>
+  <div class="geo-help">También podés hacer clic en el mapa para colocar el marcador o arrastrarlo hasta el punto correcto.</div>
+  <div id="geoEstado" class="geo-status" aria-live="polite">No seleccionaste una ubicación. Podés continuar sin el mapa.</div>
+  <input type="hidden" name="latitud" id="latitud" value="">
+  <input type="hidden" name="longitud" id="longitud" value="">
+</div>
+</div>
 </div>
 </section>
 
@@ -163,5 +184,7 @@ No se pudo registrar la denuncia. Verificá los datos e intentá nuevamente. Si 
 </main>
 
 <footer class="footer"><div class="container"><div class="footer-bottom"><span>© <?= date('Y') ?> DenunciaFácil 360</span><a href="../index.php">Volver a la página principal</a></div></div></footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="../assets/js/geolocalizacion.js"></script>
 <script src="../assets/js/formulario-denuncia.js"></script>
 </body></html>

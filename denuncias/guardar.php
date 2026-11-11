@@ -28,6 +28,13 @@ $lugarHecho = trim($_POST['lugar_hecho'] ?? '');
 $institucionId = filter_input(INPUT_POST, 'institucion_id', FILTER_VALIDATE_INT);
 $dependencia = trim($_POST['dependencia'] ?? '');
 $municipio = trim($_POST['municipio'] ?? '');
+$latitudRaw = trim($_POST['latitud'] ?? '');
+$longitudRaw = trim($_POST['longitud'] ?? '');
+$latitud = $latitudRaw === '' ? null : filter_var($latitudRaw, FILTER_VALIDATE_FLOAT);
+$longitud = $longitudRaw === '' ? null : filter_var($longitudRaw, FILTER_VALIDATE_FLOAT);
+$coordenadasValidas = ($latitudRaw === '' && $longitudRaw === '') ||
+    ($latitud !== false && $longitud !== false && $latitud !== null && $longitud !== null &&
+     $latitud >= -90 && $latitud <= 90 && $longitud >= -180 && $longitud <= 180);
 $personaNombre = trim($_POST['persona_nombre'] ?? '');
 $personaCargo = trim($_POST['persona_cargo'] ?? '');
 $personaInstitucion = trim($_POST['persona_institucion'] ?? '');
@@ -42,6 +49,7 @@ if (
     mb_strlen($descripcion) < 30 ||
     !$fechaValida ||
     $lugarHecho === '' || mb_strlen($lugarHecho) > 250 ||
+    !$coordenadasValidas ||
     $municipio === '' || mb_strlen($municipio) > 150 ||
     mb_strlen($dependencia) > 200 ||
     !isset($_POST['acepto']) ||
@@ -122,10 +130,10 @@ try {
 
     $sql = "INSERT INTO denuncias
         (codigo, clave_seguimiento_hash, titulo, categoria_id, descripcion, fecha_hecho,
-         lugar_hecho, institucion_id, dependencia, municipio, estado)
+         lugar_hecho, institucion_id, dependencia, municipio, latitud, longitud, estado)
         VALUES
         (:codigo, :clave_hash, :titulo, :categoria_id, :descripcion, :fecha_hecho,
-         :lugar_hecho, :institucion_id, :dependencia, :municipio, 'Recibida')";
+         :lugar_hecho, :institucion_id, :dependencia, :municipio, :latitud, :longitud, 'Recibida')";
 
     $stmt = $conexion->prepare($sql);
     $stmt->execute([
@@ -138,7 +146,9 @@ try {
         ':lugar_hecho' => $lugarHecho,
         ':institucion_id' => $institucionId,
         ':dependencia' => $dependencia !== '' ? $dependencia : null,
-        ':municipio' => $municipio
+        ':municipio' => $municipio,
+        ':latitud' => $latitud,
+        ':longitud' => $longitud
     ]);
 
     $denunciaId = (int)$conexion->lastInsertId();

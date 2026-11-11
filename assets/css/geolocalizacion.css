@@ -1,0 +1,15 @@
+.geo-card{padding:19px;border:1px solid #eeddea;border-radius:13px;background:#fffafd}
+.geo-heading{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+.geo-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#f8e5f2;color:#bd168c;font-size:20px}
+.geo-heading h3{margin:0 0 4px;color:#4a2054;font-size:15px;font-weight:800}
+.geo-heading p{margin:0;color:#807483;font-size:12px}
+.geo-notice{display:flex;gap:8px;padding:11px 12px;margin-bottom:13px;border-radius:8px;background:#f7eff8;color:#705675;font-size:11px;line-height:1.55}
+.geo-notice i{color:#bd168c}
+.geo-actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.btn-geo,.btn-geo-light{padding:8px 12px;border-radius:8px;font-size:11px;font-weight:700}
+.btn-geo{border:0;background:#bd168c;color:#fff}.btn-geo:hover{background:#95106f;color:#fff}
+.btn-geo-light{border:1px solid #e8d8e8;background:#fff;color:#765b79}.btn-geo-light:hover{background:#f9eff7;color:#a41480}
+.geo-map{z-index:1;width:100%;height:340px;border:1px solid #e8dce7;border-radius:10px;overflow:hidden;background:#f1edf2}
+.geo-help{margin-top:8px;color:#8a7f8d;font-size:10px}
+.geo-status{margin-top:10px;padding:9px 11px;border-radius:8px;background:#f5f2f5;color:#6e6171;font-size:11px;overflow-wrap:anywhere}
+@media(max-width:575px){.geo-card{padding:13px}.geo-map{height:280px}.geo-actions .btn{flex:1}}

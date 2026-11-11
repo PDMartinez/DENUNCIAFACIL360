@@ -52,12 +52,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const date = document.getElementById('fecha_hecho').value;
         const person = document.getElementById('persona_nombre').value.trim() || 'No informada';
         const files = upload.files.length;
+        const lat = document.getElementById('latitud')?.value || '';
+        const lng = document.getElementById('longitud')?.value || '';
+        const locationText = lat && lng ? `${lat}, ${lng}` : 'No seleccionada';
         summary.innerHTML = `<strong>Resumen de tu denuncia</strong><ul class="mb-0 mt-2">
           <li><b>Asunto:</b> ${escapeHtml(title)}</li>
           <li><b>Categoría:</b> ${escapeHtml(category)}</li>
           <li><b>Institución:</b> ${escapeHtml(institution)}</li>
           <li><b>Fecha de los hechos:</b> ${escapeHtml(date)}</li>
           <li><b>Persona denunciada:</b> ${escapeHtml(person)}</li>
+          <li><b>Geolocalización:</b> ${escapeHtml(locationText)}</li>
           <li><b>Archivos adjuntos:</b> ${files}</li>
         </ul>`;
     }

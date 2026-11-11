@@ -61,6 +61,14 @@ require __DIR__ . '/header.php';
 <div><small>Dependencia o área</small><p><?= h($denuncia['dependencia'] ?? '—') ?></p></div>
 <div><small>Municipio / localidad</small><p><?= h($denuncia['municipio'] ?? '—') ?></p></div>
 <div class="full-field"><small>Lugar específico</small><p><?= h($denuncia['lugar_hecho']) ?></p></div>
+<div class="full-field">
+<small>Geolocalización</small>
+<?php if (isset($denuncia['latitud'], $denuncia['longitud']) && $denuncia['latitud'] !== null && $denuncia['longitud'] !== null): ?>
+<div id="mapaDetalleDenuncia" class="admin-geo-map" data-lat="<?= h($denuncia['latitud']) ?>" data-lng="<?= h($denuncia['longitud']) ?>"></div>
+<p class="geo-coordinates">Latitud: <?= h($denuncia['latitud']) ?> · Longitud: <?= h($denuncia['longitud']) ?></p>
+<a class="btn-view" href="https://www.openstreetmap.org/?mlat=<?= rawurlencode((string)$denuncia['latitud']) ?>&mlon=<?= rawurlencode((string)$denuncia['longitud']) ?>#map=17/<?= rawurlencode((string)$denuncia['latitud']) ?>/<?= rawurlencode((string)$denuncia['longitud']) ?>" target="_blank" rel="noopener">Abrir en OpenStreetMap <i class="bi bi-box-arrow-up-right"></i></a>
+<?php else: ?><p class="text-muted small">No se seleccionó una geolocalización para esta denuncia.</p><?php endif; ?>
+</div>
 <div class="full-field"><small>Descripción detallada</small><p class="description-text"><?= nl2br(h($denuncia['descripcion'])) ?></p></div>
 </div>
 <h3 class="detail-section-title">Persona denunciada</h3>
@@ -103,4 +111,23 @@ require __DIR__ . '/header.php';
 </section>
 </aside>
 </div>
+<?php if (isset($denuncia['latitud'], $denuncia['longitud']) && $denuncia['latitud'] !== null && $denuncia['longitud'] !== null): ?>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>.admin-geo-map{height:280px;width:100%;margin-top:8px;border:1px solid #eadfea;border-radius:9px;z-index:1}.geo-coordinates{margin:7px 0;color:#8a7f8d;font-size:10px}</style>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const el = document.getElementById('mapaDetalleDenuncia');
+  if (!el || typeof L === 'undefined') return;
+  const lat = Number(el.dataset.lat), lng = Number(el.dataset.lng);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+  const map = L.map(el).setView([lat, lng], 16);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
+  }).addTo(map);
+  L.marker([lat, lng]).addTo(map).bindPopup('Lugar indicado en la denuncia').openPopup();
+});
+</script>
+<?php endif; ?>
 <?php require __DIR__ . '/footer.php'; ?>
