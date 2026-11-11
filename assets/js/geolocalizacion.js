@@ -22,39 +22,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
 
     const iconoDenuncia = L.divIcon({
-
         className: 'df360-marker',
-
         html: `
-            <svg
-                width="38"
-                height="48"
-                viewBox="0 0 38 48"
+            <svg width="38" height="48" viewBox="0 0 38 48"
                 xmlns="http://www.w3.org/2000/svg">
-
                 <path
                     d="M19 1C9 1 1 9 1 19c0 13 18 28 18 28s18-15 18-28C37 9 29 1 19 1Z"
                     fill="#BD168C"
                     stroke="#FFFFFF"
                     stroke-width="2"
                 />
-
-                <circle
-                    cx="19"
-                    cy="19"
-                    r="7"
-                    fill="#FFFFFF"
-                />
-
+                <circle cx="19" cy="19" r="7" fill="#FFFFFF"/>
             </svg>
         `,
-
         iconSize: [38, 48],
-
         iconAnchor: [19, 48],
-
         popupAnchor: [0, -45]
-
     });
 
 
