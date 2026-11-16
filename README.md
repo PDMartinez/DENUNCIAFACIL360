@@ -1,399 +1,232 @@
-# Motor de Análisis PDN
+# DenunciaFácil 360
+## Sistema Web de Gestión y Seguimiento de Denuncias
 
-## Paquete preparado para DenunciaFácil 360
+### 1. Descripción del proyecto
 
-## 1. Descripción general
+DenunciaFácil 360 es un sistema web desarrollado para facilitar el registro, la gestión y el seguimiento de denuncias. Permite a los ciudadanos registrar denuncias, adjuntar evidencias y consultar su estado mediante un código de seguimiento.
 
-El Motor de Análisis PDN es una aplicación desarrollada en Python para realizar búsquedas nominales y análisis patrimoniales a partir de los datos abiertos de la Plataforma Digital Nacional (PDN).
+El sistema incorpora un panel administrativo para gestionar las denuncias recibidas y un módulo de verificación que permite consultar información de datos abiertos de la Plataforma Digital Nacional (PDN), mediante la integración con un motor de análisis desarrollado en Python.
 
-El motor permite identificar posibles coincidencias de personas, recuperar información patrimonial disponible, realizar comparaciones y aplicar modelos de aprendizaje automático basados en Isolation Forest.
+### 2. Tecnologías utilizadas
 
-Está diseñado para funcionar de manera independiente y comunicarse con DenunciaFácil 360 mediante la ejecución de procesos Python desde PHP.
+- **Backend:** PHP.
+- **Frontend:** HTML, CSS, JavaScript y Bootstrap.
+- **Base de datos:** MySQL / MariaDB.
+- **Servidor local:** Apache mediante XAMPP.
+- **Mapas y geolocalización:** Leaflet y OpenStreetMap.
+- **Análisis de datos:** Python y bibliotecas de análisis de datos y aprendizaje automático.
+- **Integración:** Comunicación entre PHP y el motor de análisis Python.
 
-## 2. Estructura del proyecto
+### 3. Requisitos del sistema
 
-La estructura general del motor es la siguiente:
-
-```text
-motor_analisis_pdn/
-│
-├── src/
-│   ├── analisis/
-│   │   ├── buscador
-│   │   ├── analizador_integral
-│   │   ├── interprete
-│   │   └── ejecutar_analisis.py
-│   │
-│   └── modelos/
-│       └── entrenados/
-│           └── Modelos Isolation Forest
-│
-├── datos/
-│   └── originales/
-│       └── Archivos JSON originales de la PDN
-│
-├── resultados/
-│   └── denuncias/
-│       └── <id>/
-│
-├── requirements-produccion.txt
-│
-└── .venv/
-```
-
-### Descripción de los directorios
-
-**`src/analisis/`**
-
-Contiene los componentes encargados de realizar la búsqueda de personas, el análisis patrimonial integral, la interpretación de los resultados y la ejecución del proceso completo.
-
-**`src/modelos/entrenados/`**
-
-Contiene los tres modelos Isolation Forest previamente entrenados y preparados para su utilización durante el análisis.
-
-**`datos/originales/`**
-
-Directorio destinado a almacenar los archivos JSON originales de la PDN, manteniendo su estructura de carpetas.
-
-**`resultados/denuncias/<id>/`**
-
-Contiene los resultados generados para cada denuncia. Cada ejecución mantiene sus archivos separados mediante el identificador correspondiente.
-
-**`.venv/`**
-
-Entorno virtual de Python donde se instalan las dependencias necesarias para ejecutar el motor.
-
-## 3. Requisitos
+Para ejecutar el sistema se requiere:
 
 - Windows 10 o superior.
-- Python 3.9.
-- Dependencias definidas en `requirements-produccion.txt`.
-- Archivos JSON originales de la PDN.
-- Modelos Isolation Forest entrenados.
-- Espacio suficiente en disco para almacenar los datos y resultados.
+- XAMPP instalado.
+- Apache y MySQL habilitados.
+- Navegador web actualizado.
+- Python instalado y configurado para la integración con el motor PDN.
 
-Se recomienda utilizar inicialmente la misma versión de Python con la que se desarrolló y entrenó el proyecto.
+### 4. Instalación y configuración
 
-Si los modelos fueron guardados con versiones específicas de Scikit-learn, instalar esas mismas versiones para evitar incompatibilidades de serialización.
+#### 4.1. Copiar el proyecto
 
-## 4. Instalación en Windows
+Copiar la carpeta del sistema dentro del directorio `htdocs` de XAMPP.
 
-### Paso 1. Ubicar el proyecto
-
-Copiar o extraer el motor en una carpeta de trabajo.
-
-Ejemplo:
+La ruta recomendada es:
 
 ```text
-C:\xampp\htdocs\motor_analisis_pdn
+C:\xampp\htdocs\DENUNCIAFACIL360
 ```
 
-Para una instalación de producción, se recomienda utilizar una ubicación fuera de `htdocs`.
+#### 4.2. Iniciar los servicios
 
-### Paso 2. Abrir CMD
+Abrir el panel de control de XAMPP e iniciar los siguientes servicios:
 
-Abrir una ventana de CMD dentro de la carpeta raíz del proyecto.
+- Apache.
+- MySQL.
 
-Ejemplo:
+#### 4.3. Crear la base de datos
 
-```bat
-cd C:\xampp\htdocs\motor_analisis_pdn
-```
+1. Ingresar a phpMyAdmin desde el navegador:
 
-### Paso 3. Crear el entorno virtual
+   http://localhost/phpmyadmin
 
-Ejecutar:
-
-```bat
-py -3.9 -m venv .venv
-```
-
-### Paso 4. Activar el entorno virtual
-
-```bat
-.venv\Scripts\activate
-```
-
-### Paso 5. Actualizar pip
-
-```bat
-python -m pip install --upgrade pip
-```
-
-### Paso 6. Instalar dependencias
-
-```bat
-pip install -r requirements-produccion.txt
-```
-
-Una vez finalizada la instalación, el entorno virtual estará preparado para ejecutar el motor.
-
-## 5. Incorporación de los datos originales de la PDN
-
-Copiar los archivos JSON originales dentro del directorio:
+2. Crear una nueva base de datos con el siguiente nombre:
 
 ```text
-datos/originales/
+denunciafacil360
 ```
 
-Es importante mantener la estructura original de carpetas y archivos.
-
-Ejemplo:
+3. Seleccionar la base de datos recién creada.
+4. Ingresar a la pestaña **Importar**.
+5. Seleccionar el archivo:
 
 ```text
-datos/
-└── originales/
-    ├── s1/
-    ├── s2/
-    ├── s3/
-    └── ...
+database/denunciafacil360_backup.sql
 ```
 
-La estructura concreta debe corresponder a los archivos disponibles en el conjunto de datos utilizado por el proyecto.
+6. Ejecutar la importación.
 
-**Importante:**
+**Importante:** El archivo `denunciafacil360_backup.sql` contiene la copia de la base de datos utilizada para la instalación. Para una instalación nueva, se debe importar únicamente este archivo.
 
-- Los archivos originales de la PDN no se incluyen en el paquete debido a su tamaño.
-- No modificar los nombres ni la estructura de los archivos sin verificar previamente cómo los consume el motor.
-- Confirmar que los datos estén correctamente ubicados antes de ejecutar análisis.
-- Mantener los archivos originales protegidos y fuera del acceso público del servidor web.
+No es necesario ejecutar por separado los siguientes scripts, siempre que sus modificaciones ya estén incluidas en el backup:
 
-## 6. Ejecutar una prueba desde consola
+- `migracion_geolocalizacion.sql`
+- `migracion_verificacion_datos_abiertos.sql`
 
-Para comprobar el funcionamiento del motor, abrir CMD en la carpeta raíz del proyecto.
+Estos archivos se conservan como referencia y respaldo de las migraciones realizadas durante el desarrollo.
 
-Ejecutar el siguiente comando:
+No se debe importar el backup sobre una base de datos que ya contiene las tablas del sistema. Para una instalación desde cero, utilizar una base de datos nueva o realizar previamente una copia de seguridad y reemplazar la anterior.
 
-```bat
-.venv\Scripts\python.exe src\analisis\ejecutar_analisis.py --denuncia-id 125 --nombre "JUAN CARLOS" --primer-apellido "PEREZ" --segundo-apellido "LOPEZ"
-```
+#### 4.4. Configurar la conexión a la base de datos
 
-Los parámetros utilizados son:
+Verificar el archivo de configuración de conexión a la base de datos y comprobar que los parámetros coincidan con la instalación local.
 
-| Parámetro | Descripción |
-|---|---|
-| `--denuncia-id` | Identificador de la denuncia asociada al análisis. |
-| `--nombre` | Nombre de la persona denunciada. |
-| `--primer-apellido` | Primer apellido de la persona. |
-| `--segundo-apellido` | Segundo apellido, opcional. |
+Configurar:
 
-El segundo apellido puede omitirse cuando no se dispone de ese dato.
+- Servidor: `localhost`
+- Base de datos: `denunciafacil360`
+- Usuario: `root` (configuración habitual de XAMPP).
+- Contraseña: dejar vacía si la instalación local de MySQL no tiene contraseña configurada.
 
-**Importante:** El identificador utilizado en esta prueba es ilustrativo. Para realizar pruebas con datos reales, verificar previamente que los datos de la PDN y las dependencias estén correctamente instalados.
+Si se utiliza otro usuario o contraseña de MySQL, actualizar los datos de conexión correspondientes.
 
-## 7. Resultados por denuncia
+#### 4.5. Acceder al sistema
 
-Cada ejecución genera una carpeta independiente:
+Una vez iniciados Apache y MySQL, ingresar desde el navegador:
+
+http://localhost/DENUNCIAFACIL360/
+
+### 5. Acceso al panel administrativo
+
+El sistema incluye una cuenta de administrador predeterminada para acceder al panel de gestión.
+
+**Credenciales de acceso inicial:**
+
+|   Campo    |       Valor     |
+|------------|-----------------|
+| Usuario    | `danilo`        |
+| Contraseña | `Aratic.net123` |
+| Rol        | Administrador   |
+
+Ingresar al sistema mediante la opción de acceso administrativo.
+
+Se recomienda cambiar la contraseña después del primer ingreso y no mantener las credenciales predeterminadas en una instalación de producción.
+
+### 6. Funcionalidades principales
+
+#### 6.1. Registro de denuncias
+
+Permite registrar denuncias mediante un formulario que contempla:
+
+- Datos de los hechos denunciados.
+- Información de la persona denunciada.
+- Categoría de la denuncia.
+- Institución relacionada, cuando corresponda.
+- Ubicación geográfica de los hechos.
+- Adjuntar evidencias documentales y fotográficas.
+
+#### 6.2. Consulta y seguimiento
+
+Permite consultar el estado de una denuncia utilizando el código de seguimiento correspondiente.
+
+#### 6.3. Panel administrativo
+
+Permite a los administradores:
+
+- Visualizar las denuncias recibidas.
+- Consultar los detalles de cada denuncia.
+- Revisar las evidencias adjuntas.
+- Consultar la ubicación geográfica.
+- Actualizar el estado de las denuncias.
+- Registrar observaciones internas.
+- Enviar mensajes de seguimiento al denunciante.
+- Acceder al módulo de verificación de datos abiertos.
+
+#### 6.4. Verificación de datos abiertos
+
+El sistema incorpora un módulo que permite ejecutar el motor de análisis patrimonial desarrollado en Python, utilizando información disponible en la Plataforma Digital Nacional (PDN).
+
+Los resultados se presentan dentro del panel administrativo para facilitar su consulta y revisión.
+
+### 7. Integración con el motor de análisis PDN
+
+El sistema web se comunica con un proyecto independiente desarrollado en Python.
+
+La configuración de esta integración se encuentra en:
 
 ```text
-resultados/denuncias/<id>/
+config/motor_pdn.php
 ```
 
-Por ejemplo:
+En este archivo se deben verificar las rutas correspondientes al directorio del motor y al ejecutable de Python.
 
-```text
-resultados/
-└── denuncias/
-    └── 125/
-        ├── estado_ejecucion.json
-        ├── coincidencias_persona.json
-        ├── informe_integral_patrimonial.json
-        ├── interpretacion_patrimonial.json
-        ├── interpretacion_patrimonial.html
-        └── ejecucion.log
-```
-
-### Descripción de los archivos
-
-**`estado_ejecucion.json`**
-
-Contiene el estado del proceso de análisis.
-
-Los estados contemplados son:
-
-- `EN_PROCESO`
-- `FINALIZADO`
-- `SIN_COINCIDENCIAS`
-- `ERROR`
-
-**`coincidencias_persona.json`**
-
-Contiene los resultados de la búsqueda nominal realizada sobre los datos disponibles.
-
-**`informe_integral_patrimonial.json`**
-
-Contiene la información generada durante el análisis patrimonial integral.
-
-**`interpretacion_patrimonial.json`**
-
-Contiene la interpretación de los resultados preparada para ser consumida por el dashboard de DenunciaFácil 360.
-
-**`interpretacion_patrimonial.html`**
-
-Contiene una versión HTML del informe, que permite consultar los resultados de manera independiente.
-
-**`ejecucion.log`**
-
-Registra información técnica del proceso, incluyendo mensajes y posibles errores durante la ejecución.
-
-## 8. Integración con DenunciaFácil 360
-
-El motor se comunica con DenunciaFácil 360 mediante la ejecución de un proceso Python desde el backend PHP.
-
-La aplicación web utiliza la ruta absoluta del ejecutable Python:
-
-```text
-.venv\Scripts\python.exe
-```
-
-Y ejecuta el archivo:
-
-```text
-src\analisis\ejecutar_analisis.py
-```
-
-La integración debe utilizar `proc_open` o un mecanismo de cola de trabajos para iniciar el proceso y gestionar su ejecución.
-
-Los datos enviados al motor corresponden al identificador de la denuncia y a la información nominal de la persona denunciada.
-
-### Configuración en DenunciaFácil 360
-
-El archivo de configuración se encuentra en:
-
-```text
-DENUNCIAFACIL360/config/motor_pdn.php
-```
-
-Ejemplo de configuración:
+Ejemplo de configuración local:
 
 ```php
 <?php
-
 return [
     'motor_root' => 'C:/xampp/htdocs/motor_analisis_pdn',
-
     'python_exe' => 'C:/xampp/htdocs/motor_analisis_pdn/.venv/Scripts/python.exe',
 ];
 ```
 
-Si el motor se instala en otra ubicación, actualizar los valores de configuración.
+Es necesario que el motor Python esté instalado y configurado correctamente para que la funcionalidad de análisis pueda ejecutarse desde el sistema web.
 
-### Lectura de resultados
+Para conocer los pasos de instalación, dependencias, estructura de carpetas, ejecución y generación de resultados, consultar el README específico del proyecto del motor PDN.
 
-El dashboard de DenunciaFácil 360 debe consultar únicamente el archivo:
+### 8. Consideraciones importantes
 
-```text
-resultados/denuncias/<id>/interpretacion_patrimonial.json
-```
+- Mantener Apache y MySQL activos mientras se utiliza el sistema localmente.
+- Verificar que la conexión con la base de datos esté correctamente configurada.
+- Comprobar que las rutas del motor Python coincidan con la ubicación real de su instalación.
+- Para utilizar la geolocalización desde otros dispositivos, tener en cuenta que los navegadores generalmente requieren HTTPS o un contexto seguro.
+- Los archivos de evidencias deben mantenerse protegidos y accesibles únicamente mediante los permisos correspondientes.
+- La información del motor PDN debe estar disponible en la estructura de directorios configurada para su ejecución.
+- No publicar archivos de configuración, contraseñas, modelos ni datos originales de la PDN en repositorios públicos.
 
-La aplicación debe verificar que el usuario tenga permisos para consultar la denuncia correspondiente antes de mostrar sus resultados.
+### 9. Consideraciones sobre los resultados del análisis
 
-No se deben exponer directamente al navegador los archivos originales, los registros técnicos ni las rutas internas del motor.
+Los resultados generados por el motor PDN constituyen información de apoyo para la revisión administrativa.
 
-## 9. Seguridad
+Se deben tener en cuenta las siguientes advertencias:
 
-- Mantener `datos/originales/` fuera del directorio público de Apache.
-- Mantener `resultados/` fuera de `htdocs` o bloquear completamente su acceso HTTP.
-- Proteger los modelos entrenados y los archivos de configuración.
-- No exponer los archivos JSON originales al navegador.
-- No permitir que los usuarios accedan directamente a los registros técnicos.
-- Validar los parámetros recibidos desde PHP.
-- No concatenar datos proporcionados por el usuario directamente en comandos de shell.
-- Utilizar rutas absolutas y argumentos correctamente escapados.
-- Limitar el acceso a los resultados según los permisos del sistema.
+- Una coincidencia nominal no confirma la identidad de una persona.
+- Una clasificación NORMAL no demuestra la ausencia de irregularidades.
+- Una clasificación ATÍPICO no demuestra la existencia de un delito o conducta ilícita.
+- Los resultados requieren revisión humana y corroboración independiente.
 
-## 10. Consideraciones metodológicas
+El sistema no reemplaza los procedimientos de investigación ni constituye por sí mismo una determinación de responsabilidad.
 
-Los resultados generados por el motor deben interpretarse con precaución.
-
-**Coincidencias nominales**
-
-Una coincidencia de nombres y apellidos no confirma por sí sola la identidad de una persona. Pueden existir homónimos o coincidencias parciales.
-
-**Clasificación NORMAL**
-
-Un resultado `NORMAL` no demuestra que no existan irregularidades patrimoniales. Únicamente representa la clasificación generada por el modelo según los datos y características analizadas.
-
-**Clasificación ATIPICO**
-
-Un resultado `ATIPICO` no demuestra la existencia de una conducta ilícita. Indica un comportamiento que el modelo identifica como diferente del patrón aprendido.
-
-**Fechas de actualización**
-
-El campo `metadata.actualizacion` no debe interpretarse automáticamente como la fecha confirmada de presentación de una declaración patrimonial.
-
-**Revisión humana**
-
-Los informes requieren revisión por parte de personal autorizado y corroboración mediante fuentes independientes antes de extraer conclusiones.
-
-## 11. Solución de problemas
-
-### No se encuentra Python
-
-Verificar que Python 3.9 esté instalado y que el entorno virtual exista:
+### 10. Estructura general del proyecto
 
 ```text
-.venv\Scripts\python.exe
+DENUNCIAFACIL360/
+│
+├── config/
+│   └── motor_pdn.php
+│
+├── database/
+│   ├── denunciafacil360_backup.sql
+│   ├── migracion_geolocalizacion.sql
+│   └── migracion_verificacion_datos_abiertos.sql
+│
+├── denuncias/
+├── evidencias/
+├── admin/
+├── assets/
+├── includes/
+├── index.php
+└── README.md
 ```
 
-### Error al importar bibliotecas
+*Nota: La estructura es referencial. Pueden existir otros directorios y archivos correspondientes a los módulos del sistema.*
 
-Activar el entorno virtual e instalar nuevamente las dependencias:
+### 11. Autoría
 
-```bat
-.venv\Scripts\activate
-pip install -r requirements-produccion.txt
-```
+**Proyecto:** DenunciaFácil 360  
+**Año:** 2026  
+**Tecnologías principales:** PHP, MySQL, JavaScript y Python.
 
-### No se encuentran coincidencias
-
-Verificar:
-
-- Que los archivos JSON estén ubicados en `datos/originales/`.
-- Que se mantenga la estructura original de los datos.
-- Que los nombres y apellidos estén correctamente ingresados.
-- Que los datos consultados estén disponibles en el conjunto de datos.
-
-### Error durante el análisis
-
-Consultar los archivos:
-
-```text
-resultados/denuncias/<id>/ejecucion.log
-```
-
-y:
-
-```text
-resultados/denuncias/<id>/estado_ejecucion.json
-```
-
-Estos archivos permiten identificar el estado de ejecución y los posibles errores técnicos.
-
-### DenunciaFácil 360 no puede iniciar el motor
-
-Verificar:
-
-- La ruta configurada en `config/motor_pdn.php`.
-- La existencia del ejecutable Python.
-- Los permisos del usuario con el que se ejecuta Apache.
-- La ubicación del script `ejecutar_analisis.py`.
-- La correcta instalación de las dependencias.
-
-## 12. Recomendaciones para despliegue
-
-Antes de utilizar el motor en un entorno de producción:
-
-1. Instalar el motor fuera del directorio público de Apache.
-2. Verificar las versiones de Python y Scikit-learn.
-3. Confirmar que los modelos entrenados puedan cargarse correctamente.
-4. Comprobar la integridad y disponibilidad de los datos originales.
-5. Verificar los permisos de lectura y escritura.
-6. Probar la ejecución desde consola.
-7. Probar la integración desde DenunciaFácil 360.
-8. Configurar respaldos de los datos y resultados.
-9. Restringir el acceso a los informes y registros técnicos.
-
----
-
-**Motor de Análisis PDN — Componente de análisis de datos abiertos integrado con DenunciaFácil 360.**
+Sistema desarrollado como propuesta tecnológica para la recepción, gestión y seguimiento de denuncias, con integración de herramientas de análisis de datos abiertos.
