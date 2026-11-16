@@ -151,8 +151,24 @@ No se pudo registrar la denuncia. Verificá los datos e intentá nuevamente. Si 
 <i class="bi bi-cloud-arrow-up"></i>
 <h3>Seleccioná los archivos que querés adjuntar</h3>
 <p>Formatos permitidos: PDF, JPG, JPEG y PNG. Máximo 5 MB por archivo y hasta 5 archivos.</p>
-<input class="form-control" type="file" id="evidencias" name="evidencias[]" accept=".pdf,.jpg,.jpeg,.png" multiple>
-<div id="listaArchivos" class="file-list"></div>
+<div class="d-flex flex-column flex-sm-row gap-2 mb-3">
+    <label class="btn btn-outline-secondary mb-0" for="evidencias">
+        <i class="bi bi-folder2-open me-1"></i> Seleccionar archivos
+    </label>
+    <button class="btn btn-outline-primary" type="button" id="btnCamara">
+        <i class="bi bi-camera me-1"></i> Tomar fotografía
+    </button>
+</div>
+
+<!-- Selector habitual: permite elegir PDF e imágenes desde el dispositivo -->
+<input class="form-control" type="file" id="evidencias"
+       name="evidencias[]" accept=".pdf,.jpg,.jpeg,.png" multiple>
+
+<!-- Selector exclusivo de cámara. JavaScript incorpora la foto al campo evidencias[]. -->
+<input type="file" id="evidenciaCamara" accept="image/*"
+       capture="environment" hidden>
+
+<div id="listaArchivos" class="file-list" aria-live="polite"></div>
 </div>
 <div class="optional-banner mt-3"><i class="bi bi-lightbulb"></i> Adjuntar evidencias es opcional. No subas archivos que contengan datos personales tuyos si deseás mantener el anonimato.</div>
 </section>
